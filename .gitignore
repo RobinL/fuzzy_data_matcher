@@ -1,0 +1,13 @@
+.idea
+.ipynb_checkpoints
+*.xlsx
+
+*.pyc
+.env
+random_sample.csv
+*.csv
+*.scratchpad.py
+/ipynb_backups/*
+!test_data/las1.csv
+!test_data/las2.csv
+!test_data/address_list.csv
