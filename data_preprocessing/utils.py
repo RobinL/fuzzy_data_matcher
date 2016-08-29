@@ -25,7 +25,6 @@ def add_unique_id(df,prefix=""):
     df["auto_generated_row_id"] = prefix + df["auto_generated_row_id"].astype(str)
     return df
 
-
 def concat_fields(df, drop_list = []):
 
     for r in df.iterrows():
@@ -44,15 +43,18 @@ def concat_fields(df, drop_list = []):
     return df
 
 
-def postgres_term_freqs():
-    sql = """
-    drop table if exists term_frequencies2;
-    create table term_frequencies2 as
-    select word,
-    count(*) as occurrences,
-    1.0000 as freq from
-    (select regexp_split_to_table(upper(full_address), '[^\w]+|\s+') as word from all_addresses) as t
-    where word != ''
-    group by word
-    order by count(*) desc;
-    """
+from future_builtins import map  # Only on Python 2
+
+from collections import Counter
+from itertools import chain
+
+
+
+def get_freq_dict_from_col(series):
+    def row_to_str_split(r):
+        return r.split()
+
+    freq_counts = Counter(chain.from_iterable(map(row_to_str_split, series)))
+    total_token_count = sum(freq_counts.values())
+    relative_freqs = {k: freq_counts[k]*1.0/total_token_count for k in freq_counts}
+    return relative_freqs

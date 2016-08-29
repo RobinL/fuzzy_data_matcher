@@ -36,7 +36,6 @@ class DataGetter_Memory(DataGetterABC):
 
         return return_list
 
-
     def get_freq(self,term):
         """
         Given a token, returns the relative frequency with which it appears in the corpus
@@ -62,34 +61,30 @@ class DataGetter_Memory(DataGetterABC):
         #Query against the con to the sqlite database
         def get_potential_matches(sub_tokens):
 
-
             search_tokens = " ".join(sub_tokens)
-
             SQL = self.get_records_sql.format(search_tokens, self.max_results)
-            # logger.debug(SQL)
-
             df = pd.read_sql(SQL,self.target_con)
-
             return df
 
-
-        tokens_orig = record.tokens
+        tokens_orig = record.tokens_original_order
         tokens_ordered = record.tokens_specific_to_general_by_freq
-        return_list = []
+        df_all = pd.DataFrame()
+
 
         for tokens in [tokens_orig, tokens_ordered]:
             for i in range(len(tokens)):
 
                 sub_tokens = tokens[i:]
-                if len(sub_tokens)<3:
+                if len(sub_tokens)<2:
                     df= pd.DataFrame()
                     break
 
                 df = get_potential_matches(sub_tokens)
 
-
                 if len(df)>0 and len(df)<self.max_results:
-                    return_list.extend(self.df_to_record_objects(df))
+                    df_all = pd.concat([df_all, df])
                     break
 
-        return return_list
+        df_all = df_all.drop_duplicates("auto_generated_row_id")
+
+        return self.df_to_record_objects(df_all)
