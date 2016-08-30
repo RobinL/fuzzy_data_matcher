@@ -1,8 +1,9 @@
 Packages needed:
 
 Anaconda distribution of Python (numpy, pandas)
-pip install fuzzy
-pip install python-levenshtein
+
+    pip install fuzzy
+    pip install python-levenshtein
 
 You need fts4 enabled in your sqlite.dll - you might need to replace
 this in your anaconda installation directory with the one found [here](http://www.sqlite.org/download.html) :
