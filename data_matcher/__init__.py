@@ -1,5 +1,5 @@
 from data_preprocessing.utils import  clean_and_normalise_string
-
+import math
 class Record(object):
 
     """
@@ -16,6 +16,7 @@ class Record(object):
             self.tokens_original_order = self.tokenise(concat_record)
             self.set_ordered_tokens_freq()
         self.match_score = None
+        self.match_probability = None
 
 
     def set_ordered_tokens_freq(self):
@@ -61,6 +62,7 @@ class Matcher(object):
         self.candidate_record = candidate_record
         self.potential_target_matches = self.data_getter.get_potential_matches_from_record(self.candidate_record)
 
+
     def get_prob_from_target_token(self, target_token, candidate_address_tokens):
         """
         Computes a score that represents the 'distinctness' or 'discriminativeness' of this token
@@ -81,8 +83,8 @@ class Matcher(object):
 
         return prob
 
-    def set_prob_on_potential_target_match(self, target_record):
 
+    def set_prob_on_potential_target_match(self, target_record):
 
         target_tokens = target_record.tokens_original_order
         candidate_tokens = self.candidate_record.tokens_original_order
@@ -92,7 +94,10 @@ class Matcher(object):
             p = self.get_prob_from_target_token(t, candidate_tokens)
             individual_scores.append(p)
 
-        target_record.match_score = reduce(mul, individual_scores, 1)
+        target_record.match_probability = reduce(mul, individual_scores, 1)
+
+
+        target_record.match_score =  (math.log10(target_record.match_probability) * -1) / 30
 
 
     def find_match(self):

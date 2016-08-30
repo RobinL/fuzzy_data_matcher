@@ -29,9 +29,6 @@ def get_candidate_target_datasets(candidate_path, target_path,
     df_target = concat_fields(df_target, drop_list=candidate_drop_columns)
     df_candidate = concat_fields(df_candidate, drop_list=target_drop_columns)
 
-    # df_target_for_db = df_target[["auto_generated_row_id", "concat_all"]].copy()
-    # df_candidate_for_db = df_candidate[["auto_generated_row_id", "concat_all"]].copy()
-
     df_target["concat_all"] = df_target["concat_all"].apply(clean_and_normalise_string)
     df_candidate["concat_all"] = df_candidate["concat_all"].apply(clean_and_normalise_string)
 
@@ -57,20 +54,25 @@ def match_candidate_target_datasets(df_c, df_t):
     df_t = df_t[["auto_generated_row_id", "concat_all"]].copy()
 
     def get_matching_record(row):
+        get_matching_record.counter +=1
+        if get_matching_record.counter % 250 == 0:
+            print get_matching_record.counter
         record = Record(row["concat_all"], row["auto_generated_row_id"], datagetter)
         m = Matcher(datagetter, record)
         m.find_match()
-        return pd.Series({"target_row_id": m.best_match.record_id, "match_score": m.best_match.match_score})
+        return pd.Series({"target_row_id": m.best_match.record_id, "match_score": m.best_match.match_score, "match_probability": m.best_match.match_probability})
 
+    get_matching_record.counter = 0
 
     con = write_target_db_to_memory_and_get_connection(df_t)
     freq_dict = get_freq_dict_from_col(df_t["concat_all"])
     datagetter = DataGetter_Memory(con, freq_dict)
 
+
     matches = df_c.apply(get_matching_record, axis=1)
 
     df_c = pd.concat([df_c, matches], axis=1)
-    df_c = df_c[["auto_generated_row_id", "target_row_id", "match_score", "concat_all"]]
+    df_c = df_c[["auto_generated_row_id", "target_row_id", "match_score", "match_probability", "concat_all"]]
 
 
 

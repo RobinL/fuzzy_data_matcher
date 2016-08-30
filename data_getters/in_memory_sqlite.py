@@ -84,7 +84,7 @@ class DataGetter_Memory(DataGetterABC):
                 if len(df)>0 and len(df)<self.max_results:
                     df_all = pd.concat([df_all, df])
                     break
-
-        df_all = df_all.drop_duplicates("auto_generated_row_id")
+        if len(df_all) > 0:
+            df_all = df_all.drop_duplicates("auto_generated_row_id")
 
         return self.df_to_record_objects(df_all)
