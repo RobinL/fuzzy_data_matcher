@@ -19,7 +19,7 @@ def get_candidate_target_datasets(candidate_path, target_path,
         df_candidate = add_dmetaphone_cols(df_candidate, candidate_dmetaphone_cols)
 
     if target_dmetaphone_cols:
-        df_target = add_dmetaphone_cols(df_target, ["first_name", "surname", "city"])
+        df_target = add_dmetaphone_cols(df_target, target_dmetaphone_cols)
 
     df_candidate = add_unique_id(df_candidate, "candidate_")
     df_target = add_unique_id(df_target, "target_")
