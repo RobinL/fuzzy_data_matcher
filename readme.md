@@ -12,9 +12,9 @@ See also [this](http://stackoverflow.com/questions/3823659/how-to-setup-fts3-fts
 
 ## Basic usage instructions.
 
-This repo provides codes that allows you to easily fuzzy match two datasets - i.e. porbabalistically match two datasets based on which row in the target dataset is most likely to be a match for each candidate record.  This allows for missing information and misspellings etc.
+This repo provides codes that allows you to easily fuzzy match two datasets - i.e. probabalistically match two datasets based on which row in the target dataset is most likely to be a match for each candidate record.  This allows for missing information and misspellings etc.
 
-See [this example](https://github.com/RobinL/fuzzy_data_matcher/blob/master/Simple%20demo.ipynb) for basic usage instructions.
+See [this example](https://github.com/RobinL/fuzzy_data_matcher/blob/master/Simple%20demo.ipynb) for basic usage instructions.  You should be able to modify this example to your purposes.
 
 You start with the path to the csv of the two datasets you want to match.  
 
