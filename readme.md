@@ -1,8 +1,10 @@
 ## Packages needed:
 
+Python 3.  If you need a Python 2 version, go to back to [here](https://github.com/RobinL/fuzzy_data_matcher/tree/b4bb9115ce3cbe08036c5efc294799a128174f51) 
+
 Anaconda distribution of Python (numpy, pandas)
 
-    pip install fuzzy
+    pip install metaphone
     pip install python-levenshtein
 
 You need fts4 enabled in your sqlite.dll - you might need to replace
