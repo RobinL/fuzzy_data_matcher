@@ -1,4 +1,4 @@
-import fuzzy
+import metaphone
 import pandas as pd
 import re
 
@@ -14,7 +14,7 @@ def get_dmetaphone(x,my_fn):
         return my_fn(x)[0]
 
 def add_dmetaphone_cols(df, list_of_names=[]):
-    d_fn = fuzzy.DMetaphone(4)
+    d_fn = metaphone.doublemetaphone
     for n_field in list_of_names:
         df[n_field+"_dmetaphone"] = df[n_field].apply(get_dmetaphone, args=(d_fn,))
     return df
@@ -43,7 +43,7 @@ def concat_fields(df, drop_list = []):
     return df
 
 
-from future_builtins import map  # Only on Python 2
+# from future_builtins import map  # Only on Python 2
 
 from collections import Counter
 from itertools import chain

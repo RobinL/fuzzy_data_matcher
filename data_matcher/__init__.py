@@ -1,5 +1,6 @@
 from data_preprocessing.utils import  clean_and_normalise_string
 import math
+from functools import reduce
 class Record(object):
 
     """
@@ -28,7 +29,7 @@ class Record(object):
         if self.data_getter:
             tokens_to_score = list(set(self.tokens_original_order))
             scored_tokens = [{"token" : t, "score": self.data_getter.get_freq(t)} for t in tokens_to_score]
-            scored_tokens.sort(key=lambda x: x["score"])
+            scored_tokens.sort(key=lambda x: x["score"] if x["score"] else 0)
             scored_tokens = [t["token"] for t in scored_tokens if t["score"]] #Only keep tokens if they exist in abp!!
             self.tokens_specific_to_general_by_freq = scored_tokens
 

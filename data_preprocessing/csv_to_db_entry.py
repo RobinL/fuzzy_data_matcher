@@ -56,7 +56,7 @@ def match_candidate_target_datasets(df_c, df_t):
     def get_matching_record(row):
         get_matching_record.counter +=1
         if get_matching_record.counter % 250 == 0:
-            print get_matching_record.counter
+            print(get_matching_record.counter)
         record = Record(row["concat_all"], row["auto_generated_row_id"], datagetter)
         m = Matcher(datagetter, record)
         m.find_match()
