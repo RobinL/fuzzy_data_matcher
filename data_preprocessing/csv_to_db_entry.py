@@ -26,8 +26,8 @@ def get_candidate_target_datasets(candidate_path, target_path,
 
     candidate_drop_columns.append("auto_generated_row_id")
     target_drop_columns.append("auto_generated_row_id")
-    df_target = concat_fields(df_target, drop_list=candidate_drop_columns)
-    df_candidate = concat_fields(df_candidate, drop_list=target_drop_columns)
+    df_target = concat_fields(df_target, drop_list=target_drop_columns)
+    df_candidate = concat_fields(df_candidate, drop_list=candidate_drop_columns)
 
     df_target["concat_all"] = df_target["concat_all"].apply(clean_and_normalise_string)
     df_candidate["concat_all"] = df_candidate["concat_all"].apply(clean_and_normalise_string)
