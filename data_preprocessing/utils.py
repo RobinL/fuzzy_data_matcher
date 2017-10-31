@@ -12,7 +12,7 @@ def clean_and_normalise_string(my_str):
 def get_dmetaphone(x,my_fn):
     if not pd.isnull(x):
         words = x.split(" ")
-        metaphones = [fn(w)[0] for w in words]
+        metaphones = [my_fn(w)[0] for w in words]
         return " ".join(metaphones)
 
 def add_dmetaphone_cols(df, list_of_names=[]):
