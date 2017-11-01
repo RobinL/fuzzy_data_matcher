@@ -27,7 +27,7 @@ def add_unique_id(df,prefix=""):
     df["auto_generated_row_id"] = prefix + df["auto_generated_row_id"].astype(str)
     return df
 
-def concat_fields(df, drop_list = []):
+def concat_fields(df, fields = None):
 
     for r in df.iterrows():
         index = r[0]
@@ -36,8 +36,10 @@ def concat_fields(df, drop_list = []):
         concats = []
 
         for k in row.keys():
-            if k not in drop_list:
+            if k in fields:
                 if row[k] and not pd.isnull(row[k]):
+                    value = str(row[k])
+                    value = value.strip()
                     concats.append(str(row[k]))
 
         df.loc[index, "concat_all"] = " ".join(concats)
@@ -45,12 +47,8 @@ def concat_fields(df, drop_list = []):
     return df
 
 
-# from future_builtins import map  # Only on Python 2
-
 from collections import Counter
 from itertools import chain
-
-
 
 def get_freq_dict_from_col(series):
     def row_to_str_split(r):
