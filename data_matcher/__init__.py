@@ -97,7 +97,6 @@ class Matcher(object):
 
         target_record.match_probability = reduce(mul, individual_scores, 1)
 
-
         target_record.match_score =  (math.log10(target_record.match_probability) * -1) / 30
 
 
